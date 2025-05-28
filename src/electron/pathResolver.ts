@@ -14,3 +14,7 @@ export function getUIPath() {
    //fix this path later
   return path.join(app.getAppPath(), "dist-react/index.html");
 }
+
+export function getAssetPath() {
+  return path.join(app.getAppPath(), isDev() ? "." : "..", "/src/assets");
+}
