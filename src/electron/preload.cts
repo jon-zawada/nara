@@ -8,6 +8,11 @@ electron.contextBridge.exposeInMainWorld("electron", {
       callback(stats);
     });
   },
+  subscribeChangeView: (callback) => {
+    return ipcOn("changeView", (stats) => {
+      callback(stats);
+    });
+  },
   getStaticData: () => ipcInvoke("getStaticData"),
 } satisfies Window["electron"]);
 

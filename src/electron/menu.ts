@@ -1,5 +1,5 @@
 import { app, BrowserWindow, Menu, MenuItemConstructorOptions } from "electron";
-import { isDev } from "./util.js";
+import { ipcWebContentsSend, isDev } from "./util.js";
 
 export function createMenu(mainWindow: BrowserWindow) {
   const template: MenuItemConstructorOptions[] = [
@@ -17,6 +17,23 @@ export function createMenu(mainWindow: BrowserWindow) {
           }
         ],
       },
+      {
+        label: "View",
+        submenu: [
+          {
+            label: "CPU",
+            click: () => ipcWebContentsSend("changeView", mainWindow.webContents, 'CPU')
+          },
+          {
+            label: "RAM",
+            click: () => ipcWebContentsSend("changeView", mainWindow.webContents, 'RAM')
+          },
+          {
+            label: "STORAGE",
+            click: () => ipcWebContentsSend("changeView", mainWindow.webContents, 'STORAGE')
+          },
+        ]
+      }
     ]
     
     const menu = Menu.buildFromTemplate(template);
