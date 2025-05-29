@@ -11,6 +11,7 @@ app.on("ready", () => {
       //runs this script before the window/ui
       preload: getPreloadPath(),
     },
+    frame: false
   });
   if (isDev()) {
     mainWindow.loadURL("http://localhost:5123");
