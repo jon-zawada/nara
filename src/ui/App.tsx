@@ -26,12 +26,16 @@ function App() {
     return window.electron.subscribeChangeView((view) => setActiveView(view));
   }, [])
 
+  const onButtonClick = (action: FrameWindowAction) => {
+    window.electron.sendFrameAction(action)
+  }
+
   return (
     <div className='App'>
       <header>
-        <button id="close" />
-        <button id="minimize" />
-        <button id="maximize" />
+        <button id="close" onClick={() => onButtonClick("CLOSE")} />
+        <button id="minimize" onClick={() => onButtonClick("MINIMIZE")} />
+        <button id="maximize" onClick={() => onButtonClick("MAXIMIZE")} />
       </header>
       <div style={{ height: 120 }}>
         <Chart data={activeUsages} maxDataPoints={10} />
