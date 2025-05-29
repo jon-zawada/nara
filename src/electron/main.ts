@@ -1,8 +1,9 @@
-import { app, BrowserWindow, Tray } from "electron";
+import { app, BrowserWindow } from "electron";
 import { ipcMainHandle, isDev } from "./util.js";
 import { getStaticData, pollResources } from "./resourceManager.js";
-import { getAssetPath, getPreloadPath, getUIPath } from "./pathResolver.js";
+import { getPreloadPath, getUIPath } from "./pathResolver.js";
 import path from "path";
+import { createTray } from "./tray.js";
 
 app.on("ready", () => {
   const mainWindow = new BrowserWindow({
@@ -20,5 +21,28 @@ app.on("ready", () => {
   ipcMainHandle("getStaticData", () => {
     return getStaticData();
   });
-  new Tray(path.join(getAssetPath(), process.platform === "darwin" ? "naraTemplate@4x.png" : "nara@4x.png"));
+  createTray(mainWindow);
+  handleCloseEvents(mainWindow);
 });
+
+function handleCloseEvents(mainWindow: BrowserWindow) {
+  let willClose = false;
+  mainWindow.on("close", (e) => {
+    if (willClose) {
+      return;
+    }
+    e.preventDefault();
+    mainWindow.hide();
+    if (app.dock) {
+      app.dock.hide();
+    }
+  });
+
+  app.on("before-quit", () => {
+    willClose = true;
+  });
+
+  mainWindow.on("show", () => {
+    willClose = false;
+  });
+}
