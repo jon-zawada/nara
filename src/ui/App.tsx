@@ -60,7 +60,7 @@ function SelectOption({ title, subTitle, data, onClick, view }: SelectOptionProp
         <div>{subTitle ?? ""}</div>
       </div>
       <div className='selectOptionChart'>
-        <Chart data={data} maxDataPoints={10} selectedView={view}/>
+        <Chart data={data} maxDataPoints={10} selectedView={view} />
       </div>
     </button>
   );
